@@ -101,6 +101,20 @@ function makeDemoPhoto(i, folderId) {
   };
 }
 
+function makeDemoVideo(i, folderId) {
+  const name = `VID_WEDDING_${String(200 + i * 3)}.mp4`;
+  const h = (i * 47) % 360;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(${h},65%,35%)"/><stop offset="1" stop-color="hsl(${h + 60},70%,18%)"/></linearGradient></defs><rect width="600" height="600" fill="url(#g)"/><circle cx="300" cy="270" r="56" fill="rgba(255,255,255,0.2)" stroke="#fff" stroke-width="4"/><polygon points="284,242 330,270 284,298" fill="#fff"/><text x="300" y="380" font-size="34" text-anchor="middle" fill="#fff" font-family="sans-serif" font-weight="bold">${name}</text><text x="300" y="420" font-size="22" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="sans-serif">VIDEO CLIP</text></svg>`;
+  return {
+    id: `demovid${i}${folderId}`,
+    name,
+    mime: 'video/mp4',
+    media_type: 'video',
+    duration_ms: (60 + (i % 5) * 45) * 1000,
+    thumbnailLink: `data:image/svg+xml,${encodeURIComponent(svg)}`
+  };
+}
+
 // Multi-tier thumbnail URL builder exactly matching bcsolutions
 function buildThumbUrls(fileId, thumbLink = '', folderId = '') {
   if (String(fileId).startsWith('demo')) {
@@ -168,12 +182,17 @@ function buildThumbUrls(fileId, thumbLink = '', folderId = '') {
   };
 }
 
-// Format client photo item
+// Format client photo/video item
 function formatClientPhotoItem(p, folderId) {
+  const isVideo = p.media_type === 'video' || (p.mime && p.mime.startsWith('video/')) || /\.(mp4|mov|mkv|webm|avi|m4v)$/i.test(p.name || '');
   const thumbUrls = buildThumbUrls(p.id, p.thumb_link || '', folderId);
   return {
     id: p.id,
     name: p.name,
+    mime: p.mime || (isVideo ? 'video/mp4' : 'image/jpeg'),
+    mediaType: isVideo ? 'video' : 'photo',
+    durationMs: p.duration_ms || null,
+    previewUrl: isVideo ? `https://drive.google.com/file/d/${encodeURIComponent(p.id)}/preview` : null,
     ...thumbUrls
   };
 }
@@ -187,19 +206,36 @@ async function syncFolder(folderId) {
   const syncTime = getCurrentTimestamp();
   const cache = getFilesCache();
 
-  // If no GOOGLE_API_KEY, use demo mode
-  if (!GOOGLE_API_KEY) {
+  // If no GOOGLE_API_KEY or folderId starts with 'demo', use demo mode (includes photos and sample videos)
+  if (!GOOGLE_API_KEY || String(folderId).startsWith('demo')) {
     const demoFiles = [];
     for (let i = 0; i < 24; i++) {
-      const d = makeDemoPhoto(i, folderId);
-      demoFiles.push({
-        id: d.id,
-        name: d.name,
-        mime: d.mime,
-        thumb_link: d.thumbnailLink,
-        position: i,
-        synced_at: syncTime
-      });
+      const isVideoDemo = (i === 3 || i === 7 || i === 15);
+      if (isVideoDemo) {
+        const v = makeDemoVideo(i, folderId);
+        demoFiles.push({
+          id: v.id,
+          name: v.name,
+          mime: v.mime,
+          media_type: 'video',
+          duration_ms: v.duration_ms,
+          thumb_link: v.thumbnailLink,
+          position: i,
+          synced_at: syncTime
+        });
+      } else {
+        const d = makeDemoPhoto(i, folderId);
+        demoFiles.push({
+          id: d.id,
+          name: d.name,
+          mime: d.mime,
+          media_type: 'photo',
+          duration_ms: null,
+          thumb_link: d.thumbnailLink,
+          position: i,
+          synced_at: syncTime
+        });
+      }
     }
     cache[folderId] = {
       time: Date.now(),
@@ -215,8 +251,8 @@ async function syncFolder(folderId) {
   let pageToken = '';
   const settings = getSettings();
   const mimeClause = settings.include_octet_stream
-    ? "(mimeType contains 'image/' or mimeType = 'application/octet-stream')"
-    : "mimeType contains 'image/'";
+    ? "(mimeType contains 'image/' or mimeType contains 'video/' or mimeType = 'application/octet-stream')"
+    : "(mimeType contains 'image/' or mimeType contains 'video/')";
 
   do {
     const q = `'${folderId}' in parents and ${mimeClause} and trashed=false`;
@@ -224,7 +260,7 @@ async function syncFolder(folderId) {
       q,
       pageSize: '1000',
       orderBy: 'name',
-      fields: 'nextPageToken,files(id,name,mimeType,thumbnailLink)',
+      fields: 'nextPageToken,files(id,name,mimeType,thumbnailLink,videoMediaMetadata)',
       supportsAllDrives: 'true',
       includeItemsFromAllDrives: 'true',
       key: GOOGLE_API_KEY
@@ -258,13 +294,18 @@ async function syncFolder(folderId) {
     const data = await resp.json();
     for (const f of data.files || []) {
       if (!f.id || !f.name) continue;
+      const isVideo = (f.mimeType && f.mimeType.startsWith('video/')) || /\.(mp4|mov|mkv|webm|avi|m4v)$/i.test(f.name || '');
+      const mediaType = isVideo ? 'video' : 'photo';
+      const durationMs = f.videoMediaMetadata?.durationMillis ? parseInt(f.videoMediaMetadata.durationMillis, 10) : null;
       const tUrl = f.thumbnailLink
         ? f.thumbnailLink.replace(/=s\d+.*$/, '')
         : `https://drive.google.com/thumbnail?id=${encodeURIComponent(f.id)}`;
       rawFiles.push({
         id: String(f.id),
         name: String(f.name),
-        mime: String(f.mimeType || ''),
+        mime: String(f.mimeType || (isVideo ? 'video/mp4' : 'image/jpeg')),
+        media_type: mediaType,
+        duration_ms: durationMs,
         thumb_link: tUrl
       });
     }
@@ -276,6 +317,8 @@ async function syncFolder(folderId) {
     id: item.id,
     name: item.name,
     mime: item.mime,
+    media_type: item.media_type,
+    duration_ms: item.duration_ms,
     thumb_link: item.thumb_link,
     position: idx,
     synced_at: syncTime
@@ -384,12 +427,16 @@ async function resolveDriveFolder(input) {
     throw err;
   }
 
-  if (!GOOGLE_API_KEY) {
+  if (!GOOGLE_API_KEY || folderId.startsWith('demo')) {
     const files = await syncFolder(folderId);
+    const photoCount = files.filter(f => f.media_type !== 'video' && (!f.mime || !f.mime.startsWith('video/'))).length;
+    const videoCount = files.filter(f => f.media_type === 'video' || (f.mime && f.mime.startsWith('video/'))).length;
     return {
       folderId,
       name: `Mode Demo (${folderId.slice(0, 8)}...)`,
-      photoCount: files.length,
+      photoCount,
+      videoCount,
+      totalCount: files.length,
       isDemo: true
     };
   }
@@ -414,10 +461,14 @@ async function resolveDriveFolder(input) {
   }
 
   const files = await syncFolder(folderId);
+  const photoCount = files.filter(f => f.media_type !== 'video' && (!f.mime || !f.mime.startsWith('video/'))).length;
+  const videoCount = files.filter(f => f.media_type === 'video' || (f.mime && f.mime.startsWith('video/'))).length;
   return {
     folderId,
     name: body.name || folderId,
-    photoCount: files.length
+    photoCount,
+    videoCount,
+    totalCount: files.length
   };
 }
 
@@ -441,15 +492,22 @@ async function buildEditorGalleryDetail(g, forceRefresh = false, baseUrl = '') {
 
   for (const sid of selectedIds) {
     if (String(sid).startsWith('demo')) {
-      const demo = makeDemoPhoto(0, g.source_folder_id);
+      const isDemoVid = String(sid).startsWith('demovid');
+      const demo = isDemoVid ? makeDemoVideo(0, g.source_folder_id) : makeDemoPhoto(0, g.source_folder_id);
       selectedPhotos.push({
         id: sid,
         name: demo.name,
         nameMissing: false,
+        mime: demo.mime,
+        mediaType: isDemoVid ? 'video' : 'photo',
+        durationMs: demo.duration_ms || null,
+        previewUrl: isDemoVid ? `https://drive.google.com/file/d/${encodeURIComponent(sid)}/preview` : null,
         src: demo.thumbnailLink,
         srcLg: demo.thumbnailLink,
         fallbackSrc: demo.thumbnailLink,
-        fallbackSrcLg: demo.thumbnailLink
+        fallbackSrcLg: demo.thumbnailLink,
+        fallbacks: [],
+        fallbacksLg: []
       });
       continue;
     }
@@ -467,11 +525,16 @@ async function buildEditorGalleryDetail(g, forceRefresh = false, baseUrl = '') {
 
     const dbThumb = dbFile ? dbFile.thumb_link : '';
     const thumbUrls = buildThumbUrls(sid, dbThumb, g.source_folder_id);
+    const isVideo = dbFile?.media_type === 'video' || (dbFile?.mime && dbFile.mime.startsWith('video/')) || /\.(mp4|mov|mkv|webm|avi|m4v)$/i.test(name || sid);
 
     selectedPhotos.push({
       id: sid,
       name,
       nameMissing,
+      mime: dbFile?.mime || (isVideo ? 'video/mp4' : 'image/jpeg'),
+      mediaType: isVideo ? 'video' : 'photo',
+      durationMs: dbFile?.duration_ms || null,
+      previewUrl: isVideo ? `https://drive.google.com/file/d/${encodeURIComponent(sid)}/preview` : null,
       ...thumbUrls
     });
   }
@@ -489,16 +552,20 @@ async function buildEditorGalleryDetail(g, forceRefresh = false, baseUrl = '') {
   const cache = getFilesCache();
   const syncInfo = cache[g.source_folder_id];
   const syncedAt = syncInfo?.synced_at || null;
+  const category = g.category === 'wedding' ? 'wedding' : 'studio';
+  const clientPath = `/${category}/client?k=${encodeURIComponent(g.token)}`;
 
   return {
     id: Number(g.id),
+    category,
     title: g.title,
     status: g.status,
+    maxSelect: category === 'wedding' ? 0 : Number(g.max_select || 0),
     note: g.note || '',
     syncedAt,
     missingNameCount: missingCount,
     photos: selectedPhotos,
-    link: baseUrl ? `${baseUrl}/client?k=${g.token}` : `/client?k=${g.token}`
+    link: baseUrl ? `${baseUrl}${clientPath}` : clientPath
   };
 }
 
@@ -856,10 +923,12 @@ export async function handleRequest(req, res) {
     const g = auth.gallery;
     const settings = getSettings();
     const ids = sanitizeSelectedIds(g.selected_ids || []);
+    const category = g.category === 'wedding' ? 'wedding' : 'studio';
 
     return sendJson(res, 200, {
       title: g.title,
-      maxSelect: Number(g.max_select || 0),
+      category,
+      maxSelect: category === 'wedding' ? 0 : Number(g.max_select || 0),
       status: g.status,
       selectedIds: ids,
       note: g.note || '',
@@ -957,7 +1026,8 @@ export async function handleRequest(req, res) {
 
     if (body.ids !== undefined) {
       const rawIds = sanitizeSelectedIds(body.ids);
-      const maxSelect = Number(target.max_select || 0);
+      const isWedding = target.category === 'wedding';
+      const maxSelect = isWedding ? 0 : Number(target.max_select || 0);
       if (maxSelect > 0 && rawIds.length > maxSelect) {
         return sendError(res, 422, 'limit', `Maksimal pilihan adalah ${maxSelect} foto.`);
       }
@@ -1022,7 +1092,8 @@ export async function handleRequest(req, res) {
       return sendError(res, 422, 'empty_selection', 'Pilih minimal 1 foto sebelum mengirim.');
     }
 
-    const maxSelect = Number(target.max_select || 0);
+    const isWedding = target.category === 'wedding';
+    const maxSelect = isWedding ? 0 : Number(target.max_select || 0);
     if (maxSelect > 0 && rawIds.length > maxSelect) {
       return sendError(res, 422, 'limit', `Maksimal pilihan adalah ${maxSelect} foto.`);
     }
@@ -1188,19 +1259,28 @@ export async function handleRequest(req, res) {
 
   // GET /api/editor/galleries
   if (apiPath === '/editor/galleries' && method === 'GET') {
+    const requestedCategory = (url.searchParams.get('category') || '').trim().toLowerCase();
     const galleries = getGalleries();
-    const result = galleries.map(g => ({
-      id: Number(g.id),
-      title: g.title,
-      token: g.token,
-      source_folder_id: g.source_folder_id,
-      result_folder_id: g.result_folder_id || '',
-      max_select: Number(g.max_select || 0),
-      status: g.status,
-      selected_count: Number(g.selected_count || (Array.isArray(g.selected_ids) ? g.selected_ids.length : 0)),
-      updated_at: g.updated_at || g.created_at,
-      link: `${baseUrl}/client?k=${g.token}`
-    })).sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+    const filtered = requestedCategory
+      ? galleries.filter(g => (g.category || 'studio') === requestedCategory)
+      : galleries;
+
+    const result = filtered.map(g => {
+      const category = g.category === 'wedding' ? 'wedding' : 'studio';
+      return {
+        id: Number(g.id),
+        category,
+        title: g.title,
+        token: g.token,
+        source_folder_id: g.source_folder_id,
+        result_folder_id: g.result_folder_id || '',
+        max_select: category === 'wedding' ? 0 : Number(g.max_select || 0),
+        status: g.status,
+        selected_count: Number(g.selected_count || (Array.isArray(g.selected_ids) ? g.selected_ids.length : 0)),
+        updated_at: g.updated_at || g.created_at,
+        link: `${baseUrl}/${category}/client?k=${g.token}`
+      };
+    }).sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
 
     return sendJson(res, 200, result);
   }
@@ -1213,7 +1293,9 @@ export async function handleRequest(req, res) {
     const title = (body.title || '').trim();
     const folderId = (body.folder_id || '').trim();
     const resultFolderId = (body.result_folder_id || '').trim();
-    const maxSelect = Math.max(0, parseInt(body.max_select, 10) || 0);
+    const rawCategory = (body.category || '').trim().toLowerCase();
+    const category = rawCategory === 'wedding' ? 'wedding' : 'studio';
+    const maxSelect = category === 'wedding' ? 0 : Math.max(0, parseInt(body.max_select, 10) || 0);
 
     if (!title) return sendError(res, 400, 'invalid_title', 'Nama klien/galeri wajib diisi');
     if (!/^[A-Za-z0-9_-]{10,}$/.test(folderId)) {
@@ -1231,6 +1313,7 @@ export async function handleRequest(req, res) {
 
     const newGallery = {
       id: newId,
+      category,
       token,
       title,
       source_folder_id: folderId,
@@ -1258,7 +1341,7 @@ export async function handleRequest(req, res) {
       prefetchThumbs(resultFolderId).catch(() => {});
     }
 
-    return sendJson(res, 200, { ok: true, id: newId, link: `${baseUrl}/client?k=${token}` });
+    return sendJson(res, 200, { ok: true, id: newId, category, link: `${baseUrl}/${category}/client?k=${token}` });
   }
 
   // Dynamic /api/editor/galleries/:id routes
@@ -1317,10 +1400,12 @@ export async function handleRequest(req, res) {
         const files = await getFileIndex(gallery.source_folder_id, false);
         const formatted = files.map(p => formatClientPhotoItem(p, gallery.source_folder_id));
         const selectedIds = Array.isArray(gallery.selected_ids) ? gallery.selected_ids : [];
+        const category = gallery.category === 'wedding' ? 'wedding' : 'studio';
         return sendJson(res, 200, {
           id: gallery.id,
+          category,
           title: gallery.title,
-          maxSelect: Number(gallery.max_select || 0),
+          maxSelect: category === 'wedding' ? 0 : Number(gallery.max_select || 0),
           status: gallery.status,
           selectedIds,
           photos: formatted
@@ -1336,7 +1421,8 @@ export async function handleRequest(req, res) {
       try { body = await readJsonBody(req); } catch {}
 
       const rawIds = sanitizeSelectedIds(body.ids || []);
-      const maxSelect = Number(gallery.max_select || 0);
+      const isWedding = gallery.category === 'wedding';
+      const maxSelect = isWedding ? 0 : Number(gallery.max_select || 0);
 
       if (maxSelect > 0 && rawIds.length > maxSelect) {
         return sendError(res, 422, 'limit', `Maksimal pilihan adalah ${maxSelect} foto.`);
@@ -1402,8 +1488,15 @@ export async function handleRequest(req, res) {
       if (body.title !== undefined) {
         gallery.title = (body.title || '').trim();
       }
+      if (body.category !== undefined) {
+        const cat = (body.category || '').trim().toLowerCase();
+        gallery.category = cat === 'wedding' ? 'wedding' : 'studio';
+        if (gallery.category === 'wedding') {
+          gallery.max_select = 0;
+        }
+      }
       if (body.max_select !== undefined) {
-        gallery.max_select = Math.max(0, parseInt(body.max_select, 10) || 0);
+        gallery.max_select = gallery.category === 'wedding' ? 0 : Math.max(0, parseInt(body.max_select, 10) || 0);
       }
       if (body.result_folder_id !== undefined) {
         const resFolder = (body.result_folder_id || '').trim();
@@ -1438,9 +1531,9 @@ export async function handleRequest(req, res) {
   // ----------------------------------------------------
   if (method === 'GET') {
     let filePath = '';
-    if (pathname === '/' || pathname === '/client') {
+    if (pathname === '/' || pathname === '/client' || pathname === '/studio/client' || pathname === '/wedding/client') {
       filePath = path.join(PUBLIC_DIR, 'client.html');
-    } else if (pathname === '/editor') {
+    } else if (pathname === '/editor' || pathname === '/studio/editor' || pathname === '/wedding/editor') {
       filePath = path.join(PUBLIC_DIR, 'editor.html');
     } else {
       filePath = path.join(PUBLIC_DIR, pathname);

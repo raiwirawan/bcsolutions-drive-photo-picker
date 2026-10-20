@@ -4596,5 +4596,499 @@
         "synced_at": "2026-10-14 15:14:46"
       }
     ]
+  },
+  "demoStudioFolder": {
+    "time": 1792465090971,
+    "synced_at": "2026-10-20 10:58:10",
+    "count": 24,
+    "files": [
+      {
+        "id": "demo0demoStudioFolder",
+        "name": "IMG_1200.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(0%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(50%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1200.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 0,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo1demoStudioFolder",
+        "name": "IMG_1207.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(37%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(87%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1207.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 1,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo2demoStudioFolder",
+        "name": "IMG_1214.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(74%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(124%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1214.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 2,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demovid3demoStudioFolder",
+        "name": "VID_WEDDING_209.mp4",
+        "mime": "video/mp4",
+        "media_type": "video",
+        "duration_ms": 195000,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(141%2C65%25%2C35%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(201%2C70%25%2C18%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ccircle%20cx%3D%22300%22%20cy%3D%22270%22%20r%3D%2256%22%20fill%3D%22rgba(255%2C255%2C255%2C0.2)%22%20stroke%3D%22%23fff%22%20stroke-width%3D%224%22%2F%3E%3Cpolygon%20points%3D%22284%2C242%20330%2C270%20284%2C298%22%20fill%3D%22%23fff%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22380%22%20font-size%3D%2234%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%20font-weight%3D%22bold%22%3EVID_WEDDING_209.mp4%3C%2Ftext%3E%3Ctext%20x%3D%22300%22%20y%3D%22420%22%20font-size%3D%2222%22%20text-anchor%3D%22middle%22%20fill%3D%22rgba(255%2C255%2C255%2C0.7)%22%20font-family%3D%22sans-serif%22%3EVIDEO%20CLIP%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 3,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo4demoStudioFolder",
+        "name": "IMG_1228.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(148%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(198%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1228.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 4,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo5demoStudioFolder",
+        "name": "IMG_1235.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(185%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(235%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1235.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 5,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo6demoStudioFolder",
+        "name": "IMG_1242.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(222%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(272%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1242.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 6,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demovid7demoStudioFolder",
+        "name": "VID_WEDDING_221.mp4",
+        "mime": "video/mp4",
+        "media_type": "video",
+        "duration_ms": 150000,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(329%2C65%25%2C35%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(389%2C70%25%2C18%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ccircle%20cx%3D%22300%22%20cy%3D%22270%22%20r%3D%2256%22%20fill%3D%22rgba(255%2C255%2C255%2C0.2)%22%20stroke%3D%22%23fff%22%20stroke-width%3D%224%22%2F%3E%3Cpolygon%20points%3D%22284%2C242%20330%2C270%20284%2C298%22%20fill%3D%22%23fff%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22380%22%20font-size%3D%2234%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%20font-weight%3D%22bold%22%3EVID_WEDDING_221.mp4%3C%2Ftext%3E%3Ctext%20x%3D%22300%22%20y%3D%22420%22%20font-size%3D%2222%22%20text-anchor%3D%22middle%22%20fill%3D%22rgba(255%2C255%2C255%2C0.7)%22%20font-family%3D%22sans-serif%22%3EVIDEO%20CLIP%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 7,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo8demoStudioFolder",
+        "name": "IMG_1256.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(296%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(346%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1256.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 8,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo9demoStudioFolder",
+        "name": "IMG_1263.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(333%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(383%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1263.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 9,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo10demoStudioFolder",
+        "name": "IMG_1270.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(10%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(60%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1270.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 10,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo11demoStudioFolder",
+        "name": "IMG_1277.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(47%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(97%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1277.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 11,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo12demoStudioFolder",
+        "name": "IMG_1284.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(84%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(134%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1284.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 12,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo13demoStudioFolder",
+        "name": "IMG_1291.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(121%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(171%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1291.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 13,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo14demoStudioFolder",
+        "name": "IMG_1298.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(158%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(208%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1298.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 14,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demovid15demoStudioFolder",
+        "name": "VID_WEDDING_245.mp4",
+        "mime": "video/mp4",
+        "media_type": "video",
+        "duration_ms": 60000,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(345%2C65%25%2C35%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(405%2C70%25%2C18%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ccircle%20cx%3D%22300%22%20cy%3D%22270%22%20r%3D%2256%22%20fill%3D%22rgba(255%2C255%2C255%2C0.2)%22%20stroke%3D%22%23fff%22%20stroke-width%3D%224%22%2F%3E%3Cpolygon%20points%3D%22284%2C242%20330%2C270%20284%2C298%22%20fill%3D%22%23fff%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22380%22%20font-size%3D%2234%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%20font-weight%3D%22bold%22%3EVID_WEDDING_245.mp4%3C%2Ftext%3E%3Ctext%20x%3D%22300%22%20y%3D%22420%22%20font-size%3D%2222%22%20text-anchor%3D%22middle%22%20fill%3D%22rgba(255%2C255%2C255%2C0.7)%22%20font-family%3D%22sans-serif%22%3EVIDEO%20CLIP%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 15,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo16demoStudioFolder",
+        "name": "IMG_1312.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(232%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(282%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1312.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 16,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo17demoStudioFolder",
+        "name": "IMG_1319.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(269%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(319%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1319.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 17,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo18demoStudioFolder",
+        "name": "IMG_1326.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(306%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(356%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1326.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 18,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo19demoStudioFolder",
+        "name": "IMG_1333.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(343%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(393%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1333.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 19,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo20demoStudioFolder",
+        "name": "IMG_1340.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(20%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(70%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1340.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 20,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo21demoStudioFolder",
+        "name": "IMG_1347.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(57%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(107%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1347.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 21,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo22demoStudioFolder",
+        "name": "IMG_1354.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(94%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(144%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1354.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 22,
+        "synced_at": "2026-10-20 10:58:10"
+      },
+      {
+        "id": "demo23demoStudioFolder",
+        "name": "IMG_1361.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(131%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(181%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1361.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 23,
+        "synced_at": "2026-10-20 10:58:10"
+      }
+    ]
+  },
+  "demoWeddingFolder": {
+    "time": 1792465117129,
+    "synced_at": "2026-10-20 10:58:37",
+    "count": 24,
+    "files": [
+      {
+        "id": "demo0demoWeddingFolder",
+        "name": "IMG_1200.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(0%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(50%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1200.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 0,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo1demoWeddingFolder",
+        "name": "IMG_1207.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(37%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(87%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1207.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 1,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo2demoWeddingFolder",
+        "name": "IMG_1214.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(74%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(124%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1214.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 2,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demovid3demoWeddingFolder",
+        "name": "VID_WEDDING_209.mp4",
+        "mime": "video/mp4",
+        "media_type": "video",
+        "duration_ms": 195000,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(141%2C65%25%2C35%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(201%2C70%25%2C18%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ccircle%20cx%3D%22300%22%20cy%3D%22270%22%20r%3D%2256%22%20fill%3D%22rgba(255%2C255%2C255%2C0.2)%22%20stroke%3D%22%23fff%22%20stroke-width%3D%224%22%2F%3E%3Cpolygon%20points%3D%22284%2C242%20330%2C270%20284%2C298%22%20fill%3D%22%23fff%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22380%22%20font-size%3D%2234%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%20font-weight%3D%22bold%22%3EVID_WEDDING_209.mp4%3C%2Ftext%3E%3Ctext%20x%3D%22300%22%20y%3D%22420%22%20font-size%3D%2222%22%20text-anchor%3D%22middle%22%20fill%3D%22rgba(255%2C255%2C255%2C0.7)%22%20font-family%3D%22sans-serif%22%3EVIDEO%20CLIP%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 3,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo4demoWeddingFolder",
+        "name": "IMG_1228.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(148%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(198%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1228.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 4,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo5demoWeddingFolder",
+        "name": "IMG_1235.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(185%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(235%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1235.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 5,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo6demoWeddingFolder",
+        "name": "IMG_1242.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(222%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(272%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1242.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 6,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demovid7demoWeddingFolder",
+        "name": "VID_WEDDING_221.mp4",
+        "mime": "video/mp4",
+        "media_type": "video",
+        "duration_ms": 150000,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(329%2C65%25%2C35%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(389%2C70%25%2C18%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ccircle%20cx%3D%22300%22%20cy%3D%22270%22%20r%3D%2256%22%20fill%3D%22rgba(255%2C255%2C255%2C0.2)%22%20stroke%3D%22%23fff%22%20stroke-width%3D%224%22%2F%3E%3Cpolygon%20points%3D%22284%2C242%20330%2C270%20284%2C298%22%20fill%3D%22%23fff%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22380%22%20font-size%3D%2234%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%20font-weight%3D%22bold%22%3EVID_WEDDING_221.mp4%3C%2Ftext%3E%3Ctext%20x%3D%22300%22%20y%3D%22420%22%20font-size%3D%2222%22%20text-anchor%3D%22middle%22%20fill%3D%22rgba(255%2C255%2C255%2C0.7)%22%20font-family%3D%22sans-serif%22%3EVIDEO%20CLIP%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 7,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo8demoWeddingFolder",
+        "name": "IMG_1256.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(296%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(346%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1256.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 8,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo9demoWeddingFolder",
+        "name": "IMG_1263.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(333%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(383%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1263.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 9,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo10demoWeddingFolder",
+        "name": "IMG_1270.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(10%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(60%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1270.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 10,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo11demoWeddingFolder",
+        "name": "IMG_1277.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(47%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(97%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1277.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 11,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo12demoWeddingFolder",
+        "name": "IMG_1284.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(84%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(134%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1284.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 12,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo13demoWeddingFolder",
+        "name": "IMG_1291.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(121%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(171%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1291.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 13,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo14demoWeddingFolder",
+        "name": "IMG_1298.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(158%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(208%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1298.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 14,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demovid15demoWeddingFolder",
+        "name": "VID_WEDDING_245.mp4",
+        "mime": "video/mp4",
+        "media_type": "video",
+        "duration_ms": 60000,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(345%2C65%25%2C35%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(405%2C70%25%2C18%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ccircle%20cx%3D%22300%22%20cy%3D%22270%22%20r%3D%2256%22%20fill%3D%22rgba(255%2C255%2C255%2C0.2)%22%20stroke%3D%22%23fff%22%20stroke-width%3D%224%22%2F%3E%3Cpolygon%20points%3D%22284%2C242%20330%2C270%20284%2C298%22%20fill%3D%22%23fff%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22380%22%20font-size%3D%2234%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%20font-weight%3D%22bold%22%3EVID_WEDDING_245.mp4%3C%2Ftext%3E%3Ctext%20x%3D%22300%22%20y%3D%22420%22%20font-size%3D%2222%22%20text-anchor%3D%22middle%22%20fill%3D%22rgba(255%2C255%2C255%2C0.7)%22%20font-family%3D%22sans-serif%22%3EVIDEO%20CLIP%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 15,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo16demoWeddingFolder",
+        "name": "IMG_1312.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(232%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(282%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1312.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 16,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo17demoWeddingFolder",
+        "name": "IMG_1319.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(269%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(319%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1319.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 17,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo18demoWeddingFolder",
+        "name": "IMG_1326.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(306%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(356%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1326.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 18,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo19demoWeddingFolder",
+        "name": "IMG_1333.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(343%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(393%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1333.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 19,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo20demoWeddingFolder",
+        "name": "IMG_1340.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(20%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(70%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1340.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 20,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo21demoWeddingFolder",
+        "name": "IMG_1347.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(57%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(107%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1347.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 21,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo22demoWeddingFolder",
+        "name": "IMG_1354.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(94%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(144%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1354.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 22,
+        "synced_at": "2026-10-20 10:58:37"
+      },
+      {
+        "id": "demo23demoWeddingFolder",
+        "name": "IMG_1361.jpg",
+        "mime": "image/svg+xml",
+        "media_type": "photo",
+        "duration_ms": null,
+        "thumb_link": "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22hsl(131%2C55%25%2C62%25)%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22hsl(181%2C60%25%2C38%25)%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22600%22%20height%3D%22600%22%20fill%3D%22url(%23g)%22%2F%3E%3Ctext%20x%3D%22300%22%20y%3D%22316%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3EIMG_1361.jpg%3C%2Ftext%3E%3C%2Fsvg%3E",
+        "position": 23,
+        "synced_at": "2026-10-20 10:58:37"
+      }
+    ]
   }
 }

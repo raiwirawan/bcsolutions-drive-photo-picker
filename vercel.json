@@ -14,6 +14,10 @@
     { "source": "/api/:path*", "destination": "/api/index.js?__path=:path*" },
     { "source": "/api", "destination": "/api/index.js?__path=" },
     { "source": "/thumb:path*", "destination": "/api/index.js?__path=thumb:path*" },
+    { "source": "/studio/editor", "destination": "/editor.html" },
+    { "source": "/studio/client", "destination": "/client.html" },
+    { "source": "/wedding/editor", "destination": "/editor.html" },
+    { "source": "/wedding/client", "destination": "/client.html" },
     { "source": "/editor", "destination": "/editor.html" },
     { "source": "/client", "destination": "/client.html" },
     { "source": "/", "destination": "/index.html" }

@@ -18,11 +18,13 @@
     <noscript><div class="st-shell-noscript">JavaScript harus diaktifkan untuk menggunakan aplikasi ini.</div></noscript>
   </div>
   <script>
+    const isWeddingPath = window.location.pathname.startsWith('/wedding');
     window.StudioConfig = {
       role: 'editor',
+      category: isWeddingPath ? 'wedding' : 'studio',
       apiBase: '/api',
       isAdmin: true,
-      clientPageUrl: '/client'
+      clientPageUrl: isWeddingPath ? '/wedding/client' : '/studio/client'
     };
   </script>
   <script defer src="/js/vendor/jszip.min.js"></script>

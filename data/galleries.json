@@ -2,7 +2,8 @@
   {
     "created_at": "2026-10-07 10:00:00",
     "id": 1,
-    "max_select": 20,
+    "category": "wedding",
+    "max_select": 0,
     "note": "",
     "result_folder_id": "1kWFeHliLzO1HYEZ3dh5nFruHxhq7_4Wi",
     "selected_count": 2,
@@ -25,6 +26,7 @@
   {
     "created_at": "2026-10-14 05:16:11",
     "id": 2,
+    "category": "studio",
     "max_select": 20,
     "note": "ini pilihan saya ya",
     "result_folder_id": "1mu5e_mifWUcN_UTJiXUQTih4AFQMthAB",

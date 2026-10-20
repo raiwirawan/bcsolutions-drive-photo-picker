@@ -132,10 +132,12 @@
   }
 
   // Clean filename helper
-  function sanitizeFilename(name, fallbackIndex) {
+  function sanitizeFilename(name, fallbackIndex, isVideo = false) {
     let clean = (name || '').trim().replace(/[\\/:*?"<>|]/g, '_');
-    if (!clean) clean = `foto_${String(fallbackIndex + 1).padStart(3, '0')}.jpg`;
-    if (!/\.[a-zA-Z0-9]{3,4}$/.test(clean)) clean += '.jpg';
+    if (!clean) clean = isVideo ? `video_${String(fallbackIndex + 1).padStart(3, '0')}.mp4` : `foto_${String(fallbackIndex + 1).padStart(3, '0')}.jpg`;
+    if (!/\.[a-zA-Z0-9]{3,4}$/.test(clean)) {
+      clean += (isVideo ? '.mp4' : '.jpg');
+    }
     return clean;
   }
 
@@ -177,18 +179,20 @@
     } = options;
 
     if (!photos || !photos.length) {
-      throw new Error('Tidak ada foto untuk diunduh.');
+      throw new Error('Tidak ada berkas untuk diunduh.');
     }
 
-    const total = photos.length;
+    const photoList = photos.filter(p => p.mediaType !== 'video' && (!p.mime || !p.mime.startsWith('video/')));
+    const videoList = photos.filter(p => p.mediaType === 'video' || (p.mime && p.mime.startsWith('video/')));
+    const total = photoList.length;
     let completedCount = 0;
     let totalLoadedBytes = 0;
     const downloadedEntries = [];
     const usedNames = new Set();
 
-    // Prepare distinct filenames
-    const preparedPhotos = photos.map((p, idx) => {
-      let baseName = sanitizeFilename(p.name, idx);
+    // Prepare distinct filenames for photos
+    const preparedPhotos = photoList.map((p, idx) => {
+      let baseName = sanitizeFilename(p.name, idx, false);
       let finalName = baseName;
       let dup = 1;
       while (usedNames.has(finalName.toLowerCase())) {
@@ -212,7 +216,7 @@
       current: 0,
       total,
       loadedBytes: 0,
-      currentName: 'Memulai pengunduhan langsung dari Google CDN...'
+      currentName: total > 0 ? 'Memulai pengunduhan foto dari Google CDN...' : 'Menyiapkan berkas ZIP...'
     });
 
     // Concurrency worker queue
@@ -290,22 +294,28 @@
 
     if (signal && signal.aborted) throw new Error('Pengunduhan dibatalkan oleh pengguna.');
 
-    if (downloadedEntries.length === 0) {
+    if (downloadedEntries.length === 0 && photoList.length > 0) {
       throw new Error('Gagal mengunduh foto dari Google Drive CDN. Periksa izin akses folder atau koneksi internet.');
     }
 
     // Add info_klien.txt manifest inside zip
     const manifestText = [
       '========================================',
-      'RINGKASAN PILIHAN FOTO KLIEN',
+      'RINGKASAN PILIHAN BERKAS KLIEN',
       '========================================',
       `Galeri        : ${title}`,
       `Tanggal Unduh : ${new Date().toLocaleString('id-ID')}`,
-      `Total Berkas  : ${downloadedEntries.length} dari ${total} foto berhasil diunduh`,
+      `Total Foto    : ${downloadedEntries.length} dari ${photoList.length} foto berhasil dikemas`,
+      videoList.length ? `Total Video   : ${videoList.length} video (unduh terpisah / direct download)` : '',
       note ? `Catatan Klien : ${note}\n` : '',
       '----------------------------------------',
-      'Daftar Berkas Terpilih:',
+      'Daftar Foto di Dalam ZIP:',
       ...downloadedEntries.map((e, idx) => `${idx + 1}. ${e.name} (${formatBytes(e.data.byteLength)})`),
+      ...(videoList.length ? [
+        '----------------------------------------',
+        'Daftar File Video Terpilih (Tautan Unduh Langsung):',
+        ...videoList.map((v, idx) => `${idx + 1}. ${v.name} -> https://drive.google.com/uc?export=download&id=${v.id}`)
+      ] : []),
       '========================================',
       'Dibuat oleh Studio Photo Picker'
     ].filter(Boolean).join('\n');
@@ -396,13 +406,16 @@
       delayMs = 350
     } = options;
 
-    if (!photos || !photos.length) throw new Error('Tidak ada foto untuk diunduh.');
+    if (!photos || !photos.length) throw new Error('Tidak ada berkas untuk diunduh.');
 
     for (let i = 0; i < photos.length; i++) {
       if (signal && signal.aborted) throw new Error('Pengunduhan dibatalkan.');
       const p = photos[i];
-      const filename = sanitizeFilename(p.name, i);
-      const url = `https://lh3.googleusercontent.com/d/${encodeURIComponent(p.id)}=d`;
+      const isVideo = p.mediaType === 'video' || (p.mime && p.mime.startsWith('video/')) || /\.(mp4|mov|mkv|webm|avi|m4v)$/i.test(p.name || '');
+      const filename = sanitizeFilename(p.name, i, isVideo);
+      const url = isVideo
+        ? `https://drive.google.com/uc?export=download&id=${encodeURIComponent(p.id)}`
+        : `https://lh3.googleusercontent.com/d/${encodeURIComponent(p.id)}=d`;
 
       onProgress({
         phase: 'downloading',

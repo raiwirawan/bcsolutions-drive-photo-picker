@@ -5,6 +5,7 @@
   let gallery = null, photos = [], resultPhotos = [], sel = new Set(), cur = 0;
   let statusData = { status: 'unstarted', selectedIds: [], note: '' };
   let isLocked = false, inResultView = false;
+  let currentMediaTypeFilter = 'all'; // 'all' | 'photo' | 'video'
 
   // D2: Peta id -> elemen kartu agar toggle/pilih semua tidak membangun ulang DOM
   const cardMap = new Map();
@@ -14,6 +15,14 @@
   let dirtyIds = false, dirtyNote = false, isSaving = false, retryCount = 0;
 
   const $ = id => document.getElementById(id);
+
+  function formatDuration(ms) {
+    if (!ms || ms <= 0) return 'VIDEO';
+    const totalSec = Math.floor(ms / 1000);
+    const m = Math.floor(totalSec / 60);
+    const s = totalSec % 60;
+    return `${m}:${String(s).padStart(2, '0')}`;
+  }
 
   function getUrlToken() {
     const params = new URLSearchParams(window.location.search);
@@ -39,7 +48,7 @@
   function buildWaUrl(noteText) {
     if (!gallery || !gallery.editorWa) return '';
     const currentUrl = window.location.href;
-    const teksWa = `Halo, saya *${gallery.title}* sudah selesai memilih *${sel.size}* foto.\n\nLink Galeri: ${currentUrl}\nCatatan: ${noteText || '-'}`;
+    const teksWa = `Halo, saya *${gallery.title}* sudah selesai memilih *${sel.size}* berkas.\n\nLink Galeri: ${currentUrl}\nCatatan: ${noteText || '-'}`;
     return `https://wa.me/${gallery.editorWa}?text=${encodeURIComponent(teksWa)}`;
   }
 
@@ -83,7 +92,7 @@
               dirtyIds = true;
               if (draft.note) dirtyNote = true;
               setTimeout(() => flushAutoSave(false), 800);
-              toast('Draft pilihan foto berhasil dipulihkan dari perangkat Anda.', 'info');
+              toast('Draft pilihan berhasil dipulihkan dari perangkat Anda.', 'info');
             }
           }
         } catch (e) {}
@@ -96,23 +105,32 @@
     }
   }
 
-  // B4 & D7: Muat daftar foto dengan penanganan khusus saat Drive tidak tersedia (503)
+  // B4 & D7: Muat daftar foto & video dengan penanganan khusus saat Drive tidak tersedia (503)
   async function loadPhotos() {
     const statusEl = $('st-status');
     if (statusEl) {
-      statusEl.innerHTML = 'Memuat daftar foto...';
+      statusEl.innerHTML = 'Memuat daftar berkas...';
     }
     try {
       photos = await apiFetch('/client/photos');
+      const photoCount = photos.filter(p => p.mediaType !== 'video').length;
+      const videoCount = photos.filter(p => p.mediaType === 'video').length;
       if (statusEl) {
-        statusEl.textContent = photos.length ? `${photos.length} foto ditemukan.` : 'Belum ada foto di folder ini.';
+        if (!photos.length) {
+          statusEl.textContent = 'Belum ada foto atau video di folder ini.';
+        } else if (videoCount > 0) {
+          statusEl.textContent = `${photos.length} berkas ditemukan (${photoCount} foto, ${videoCount} video).`;
+        } else {
+          statusEl.textContent = `${photos.length} foto ditemukan.`;
+        }
       }
+      renderFilterTabs();
       renderSkeleton();
     } catch (err) {
       if (statusEl) {
         statusEl.innerHTML = `
           <div class="st-banner" style="justify-content: space-between; flex-wrap: wrap; border-color: #ff4d4f;">
-            <span style="color: #ff4d4f;">⚠️ ${esc(err.message || 'Daftar foto belum bisa dimuat. Coba lagi sebentar.')}</span>
+            <span style="color: #ff4d4f;">⚠️ ${esc(err.message || 'Daftar berkas belum bisa dimuat. Coba lagi sebentar.')}</span>
             <button type="button" class="st-btn st-btn-outline" id="st-retryPhotosBtn" style="height: 36px; font-size: 14px; padding: 0 16px;">↻ Coba Lagi</button>
           </div>
         `;
@@ -133,12 +151,50 @@
     `;
   }
 
+  function renderFilterTabs() {
+    const container = $('st-filterContainer');
+    const tabs = $('st-filterTabs');
+    if (!container || !tabs) return;
+
+    const sourceList = inResultView ? resultPhotos : photos;
+    const photoCount = sourceList.filter(p => p.mediaType !== 'video').length;
+    const videoCount = sourceList.filter(p => p.mediaType === 'video').length;
+
+    if (videoCount === 0) {
+      container.style.display = 'none';
+      return;
+    }
+
+    container.style.display = 'block';
+    tabs.innerHTML = `
+      <button type="button" class="st-filter-tab ${currentMediaTypeFilter === 'all' ? 'st-active' : ''}" data-filter="all">Semua (${sourceList.length})</button>
+      <button type="button" class="st-filter-tab ${currentMediaTypeFilter === 'photo' ? 'st-active' : ''}" data-filter="photo">📷 Foto (${photoCount})</button>
+      <button type="button" class="st-filter-tab ${currentMediaTypeFilter === 'video' ? 'st-active' : ''}" data-filter="video">🎬 Video (${videoCount})</button>
+    `;
+
+    tabs.querySelectorAll('.st-filter-tab').forEach(b => {
+      b.onclick = () => {
+        currentMediaTypeFilter = b.dataset.filter;
+        renderFilterTabs();
+        renderSkeleton(inResultView ? resultPhotos : null);
+      };
+    });
+  }
+
   function renderApp() {
+    const isWedding = gallery.category === 'wedding';
+    const defaultSubtitle = isWedding
+      ? 'Pilih foto & video kenangan pernikahan Anda (Tanpa batas kuota). Pilihan tersimpan otomatis.'
+      : 'Ketuk foto yang ingin diedit. Pilihan tersimpan otomatis.';
+
     $('st-app').innerHTML = `
       <header class="st-header-section">
         <div class="st-container" style="display: flex; flex-direction: column; gap: var(--st-space-3);">
-          <h1 id="st-title">${esc(gallery.title)}</h1>
-          <p id="st-subtitle" class="st-text-muted" style="margin-bottom: 0;">Ketuk foto yang ingin diedit. Pilihan tersimpan otomatis.</p>
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <h1 id="st-title" style="margin: 0;">${esc(gallery.title)}</h1>
+            ${isWedding ? '<span class="st-badge-status" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.35); font-size: 12px; padding: 3px 10px; border-radius: 999px;">💍 Wedding Edition</span>' : ''}
+          </div>
+          <p id="st-subtitle" class="st-text-muted" style="margin-bottom: 0;">${defaultSubtitle}</p>
         </div>
       </header>
 
@@ -146,7 +202,7 @@
       <div class="st-container" id="st-resultBanner" style="margin-bottom: 16px;">
         <div style="background: rgba(37, 211, 102, 0.1); border: 1px solid rgba(37, 211, 102, 0.3); color: #4ade80; padding: 16px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
           <div style="display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px;">
-            <span style="font-size: 20px;">🎉</span> Foto hasil edit sudah tersedia!
+            <span style="font-size: 20px;">🎉</span> Berkas hasil edit sudah tersedia!
           </div>
           <button class="st-btn st-btn-primary" id="st-showResultBtn" style="background: #25D366; border-color: #25D366; color: #111; font-weight: 700;">Lihat Hasil Edit</button>
         </div>
@@ -157,15 +213,19 @@
         <div class="st-banner" id="st-bannerContent"></div>
       </div>
 
-      <div class="st-container">
-        <div id="st-status" class="st-text-muted st-mb-4" role="status">Memuat data foto...</div>
+      <div class="st-container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div id="st-status" class="st-text-muted st-mb-4" role="status">Memuat data berkas...</div>
+      </div>
+
+      <div class="st-container" id="st-filterContainer" style="display: none; padding-top: 0;">
+        <div class="st-filter-tabs" id="st-filterTabs"></div>
       </div>
 
       <main class="st-container st-photo-grid" id="st-grid"></main>
 
       <div class="st-bottom-bar" id="st-bottomBar">
         <div class="st-bottom-bar-title">
-          <span id="st-count" aria-live="polite">0 foto dipilih</span>
+          <span id="st-count" aria-live="polite">0 item dipilih</span>
           <div class="st-bottom-bar-progress" id="st-progressWrap" style="display: none;"><div class="st-bottom-bar-progress-fill" id="st-progressFill"></div></div>
           <span id="st-saveStatus" class="st-save-status" aria-live="polite"></span>
         </div>
@@ -182,9 +242,10 @@
           <button class="st-lightbox-nav" style="position: static; transform: none; background: transparent;" id="st-closeBtn" aria-label="Tutup">✕</button>
         </div>
         <div class="st-lightbox-content" id="st-lbContent">
-          <button class="st-lightbox-nav st-lightbox-prev" id="st-prevBtn" aria-label="Foto sebelumnya">‹</button>
+          <button class="st-lightbox-nav st-lightbox-prev" id="st-prevBtn" aria-label="Sebelumnya">‹</button>
           <img id="st-lbimg" class="st-lightbox-img" alt="">
-          <button class="st-lightbox-nav st-lightbox-next" id="st-nextBtn" aria-label="Foto berikutnya">›</button>
+          <iframe id="st-lbvideo" class="st-lightbox-video" style="display: none;" allow="autoplay; fullscreen" allowfullscreen></iframe>
+          <button class="st-lightbox-nav st-lightbox-next" id="st-nextBtn" aria-label="Berikutnya">›</button>
         </div>
         <div class="st-lightbox-footer">
           <span id="st-lbname" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
@@ -200,7 +261,7 @@
       <div id="st-dlg" class="st-dialog">
         <div id="st-dlgForm">
           <h2>Kirim Pilihan ke Editor</h2>
-          <p class="st-text-muted" style="font-size: 14px;">Kamu memilih <span id="st-dlgCount" style="font-weight:bold; color:var(--st-text);"></span> foto.</p>
+          <p class="st-text-muted" style="font-size: 14px;">Kamu memilih <span id="st-dlgCount" style="font-weight:bold; color:var(--st-text);"></span> berkas.</p>
           <textarea id="st-note" placeholder="Catatan tambahan untuk editor (opsional)..."></textarea>
           <div style="display: flex; gap: var(--st-space-2); justify-content: flex-end; flex-wrap: wrap;">
             <button class="st-btn st-btn-outline" id="st-closeDlgBtn">Batal</button>
@@ -235,7 +296,8 @@
     isLocked = statusData.status === 'submitted';
     const bC = $('st-bannerContainer');
     const bText = $('st-bannerContent');
-    const maxSelect = gallery.maxSelect;
+    const isWedding = gallery.category === 'wedding';
+    const maxSelect = isWedding ? 0 : gallery.maxSelect;
     let overLimit = false;
 
     if (maxSelect && sel.size > maxSelect && !isLocked) {
@@ -268,14 +330,17 @@
     $('st-resetBtn').disabled = isLocked || sel.size === 0;
     $('st-sendBtn').disabled = isLocked || sel.size === 0 || overLimit;
 
+    const hasVideos = photos.some(p => p.mediaType === 'video');
+    const unitLabel = hasVideos ? 'berkas' : 'foto';
+
     if (maxSelect) {
       $('st-progressWrap').style.display = 'block';
-      $('st-count').textContent = `${sel.size} / ${maxSelect} foto dipilih`;
+      $('st-count').textContent = `${sel.size} / ${maxSelect} ${unitLabel} dipilih`;
       $('st-progressFill').style.width = Math.min((sel.size / maxSelect) * 100, 100) + '%';
       $('st-progressFill').style.background = sel.size > maxSelect ? '#D31510' : 'var(--st-accent-blue)';
     } else {
       $('st-progressWrap').style.display = 'none';
-      $('st-count').textContent = `${sel.size} foto dipilih`;
+      $('st-count').textContent = `${sel.size} ${unitLabel} dipilih`;
     }
   }
 
@@ -457,6 +522,8 @@
 
     nextBatch.forEach((p, idx) => {
       const overallIndex = renderedCount + idx;
+      const isVideo = p.mediaType === 'video';
+      const durLabel = isVideo ? (p.durationMs ? `▶ ${formatDuration(p.durationMs)}` : '🎬 VIDEO') : '';
       const c = document.createElement('div');
       c.className = 'st-photo-card' + (!isCurrentResultView && sel.has(p.id) ? ' st-selected' : '');
       c.dataset.i = overallIndex;
@@ -467,9 +534,10 @@
           <button type="button" class="st-retry-img-btn" data-i="${overallIndex}">↻ Muat ulang</button>
         </div>
         <div class="st-photo-card__overlay"></div>
+        ${isVideo ? `<div class="st-badge-video">${durLabel}</div><button class="st-play-center-btn" type="button" aria-label="Putar video" tabindex="-1"><svg viewBox="0 0 24 24"><polygon points="6,4 20,12 6,20"/></svg></button>` : ''}
         ${isCurrentResultView ? '' : '<div class="st-badge-check">✓</div>'}
         <div class="st-badge-name" title="${esc(p.name)}">${esc(p.name)}</div>
-        <button class="st-zoom-btn" type="button" aria-label="Perbesar" tabindex="-1">⤢</button>
+        <button class="st-zoom-btn" type="button" aria-label="${isVideo ? 'Putar Video' : 'Perbesar'}" tabindex="-1">${isVideo ? '▶' : '⤢'}</button>
       `;
       attachCardImage(c, p, overallIndex);
       if (!isCurrentResultView) {
@@ -509,7 +577,7 @@
     sentinel.style.justifyContent = 'center';
     sentinel.style.color = 'var(--st-text-muted)';
     sentinel.style.fontSize = '14px';
-    sentinel.textContent = 'Memuat foto lainnya...';
+    sentinel.textContent = 'Memuat berkas lainnya...';
     grid.appendChild(sentinel);
 
     if ('IntersectionObserver' in window) {
@@ -537,7 +605,15 @@
 
   function renderSkeleton(forceResultPhotos = null) {
     isCurrentResultView = Array.isArray(forceResultPhotos);
-    activeRenderList = isCurrentResultView ? forceResultPhotos : photos;
+    const source = isCurrentResultView ? forceResultPhotos : photos;
+    if (currentMediaTypeFilter === 'photo') {
+      activeRenderList = source.filter(p => p.mediaType !== 'video');
+    } else if (currentMediaTypeFilter === 'video') {
+      activeRenderList = source.filter(p => p.mediaType === 'video');
+    } else {
+      activeRenderList = source;
+    }
+
     const grid = $('st-grid');
     grid.innerHTML = '';
     cardMap.clear();
@@ -604,7 +680,7 @@
     const len = currentLbList.length;
     [(cur + 1) % len, (cur - 1 + len) % len].forEach(idx => {
       const item = currentLbList[idx];
-      if (item && (item.srcLg || item.src)) {
+      if (item && item.mediaType !== 'video' && (item.srcLg || item.src)) {
         const pre = new Image();
         pre.referrerPolicy = 'no-referrer';
         pre.src = item.srcLg || item.src;
@@ -616,29 +692,54 @@
     const p = currentLbList[cur];
     if (!p) return;
     const lbImg = $('st-lbimg');
-    lbImg.referrerPolicy = 'no-referrer';
-    const candidates = getImageCandidates(p, true);
-    let attempt = 0;
-    lbImg.onerror = () => {
-      attempt++;
-      if (attempt < candidates.length) {
-        lbImg.src = candidates[attempt];
-      }
-    };
-    lbImg.src = candidates[0] || p.srcLg || p.src;
-    $('st-lbname').textContent = p.name;
-    prefetchLbNeighbors();
+    const lbVideo = $('st-lbvideo');
+    const isVideo = p.mediaType === 'video';
 
-    if (currentLbResultMode) {
-      $('st-lbselBtn').style.display = 'none';
-      const isDemo = String(p.id).startsWith('demo');
-      $('st-lbDownloadBtn').style.display = 'inline-flex';
-      $('st-lbDownloadBtn').href = isDemo
+    if (isVideo) {
+      lbImg.style.display = 'none';
+      lbImg.src = '';
+      if (lbVideo) {
+        lbVideo.style.display = 'block';
+        const prevUrl = p.previewUrl || `https://drive.google.com/file/d/${encodeURIComponent(p.id)}/preview`;
+        lbVideo.src = prevUrl;
+      }
+    } else {
+      if (lbVideo) {
+        lbVideo.style.display = 'none';
+        lbVideo.src = '';
+      }
+      lbImg.style.display = 'block';
+      lbImg.referrerPolicy = 'no-referrer';
+      const candidates = getImageCandidates(p, true);
+      let attempt = 0;
+      lbImg.onerror = () => {
+        attempt++;
+        if (attempt < candidates.length) {
+          lbImg.src = candidates[attempt];
+        }
+      };
+      lbImg.src = candidates[0] || p.srcLg || p.src;
+    }
+
+    $('st-lbname').textContent = p.name;
+    if (!isVideo) prefetchLbNeighbors();
+
+    const isDemo = String(p.id).startsWith('demo');
+    const dlBtn = $('st-lbDownloadBtn');
+    if (currentLbResultMode || isVideo) {
+      dlBtn.style.display = 'inline-flex';
+      dlBtn.textContent = isVideo ? 'Unduh Video' : 'Unduh';
+      dlBtn.href = isDemo
         ? (p.srcLg || p.src)
         : `https://drive.google.com/uc?export=download&id=${encodeURIComponent(p.id)}`;
     } else {
+      dlBtn.style.display = 'none';
+    }
+
+    if (currentLbResultMode) {
+      $('st-lbselBtn').style.display = 'none';
+    } else {
       $('st-lbselBtn').style.display = 'inline-flex';
-      $('st-lbDownloadBtn').style.display = 'none';
       updateLbBtn();
     }
   }
@@ -647,20 +748,33 @@
     const p = currentLbList[cur];
     if (!p) return;
     const isSelected = sel.has(p.id);
+    const isVideo = p.mediaType === 'video';
+    const itemLabel = isVideo ? 'video' : 'foto';
     const atLimit = !isSelected && gallery.maxSelect && sel.size >= gallery.maxSelect;
     $('st-lbselBtn').textContent = isSelected
-      ? 'Batal pilih'
-      : (atLimit ? `Batas penuh (${gallery.maxSelect})` : 'Pilih foto ini');
+      ? `Batal pilih ${itemLabel}`
+      : (atLimit ? `Batas penuh (${gallery.maxSelect})` : `Pilih ${itemLabel} ini`);
     $('st-lbselBtn').disabled = isLocked || atLimit;
   }
 
   function exitResultView() {
     inResultView = false;
+    currentMediaTypeFilter = 'all';
     $('st-title').textContent = gallery.title;
-    $('st-subtitle').textContent = 'Ketuk foto yang ingin diedit. Pilihan tersimpan otomatis.';
+    const isWedding = gallery.category === 'wedding';
+    $('st-subtitle').textContent = isWedding
+      ? 'Pilih foto & video kenangan pernikahan Anda (Tanpa batas kuota). Pilihan tersimpan otomatis.'
+      : 'Ketuk foto yang ingin diedit. Pilihan tersimpan otomatis.';
     if ($('st-resultBanner')) $('st-resultBanner').style.display = 'block';
     $('st-bottomBar').style.display = 'flex';
-    $('st-status').textContent = photos.length ? `${photos.length} foto ditemukan.` : 'Belum ada foto di folder ini.';
+    const photoCount = photos.filter(p => p.mediaType !== 'video').length;
+    const videoCount = photos.filter(p => p.mediaType === 'video').length;
+    if ($('st-status')) {
+      $('st-status').textContent = videoCount > 0
+        ? `${photos.length} berkas ditemukan (${photoCount} foto, ${videoCount} video).`
+        : `${photos.length} foto ditemukan.`;
+    }
+    renderFilterTabs();
     renderSkeleton();
   }
 
@@ -673,7 +787,7 @@
         const card = retryBtn.closest('.st-photo-card');
         if (!card) return;
         const idx = parseInt(card.dataset.i, 10);
-        const list = inResultView ? resultPhotos : photos;
+        const list = activeRenderList;
         if (list[idx]) {
           card.classList.remove('st-img-error');
           attachCardImage(card, list[idx], idx, true);
@@ -684,10 +798,10 @@
       const card = e.target.closest('.st-photo-card');
       if (!card) return;
       const idx = parseInt(card.dataset.i, 10);
-      const list = inResultView ? resultPhotos : photos;
+      const list = activeRenderList;
       if (!list[idx]) return;
 
-      if (e.target.closest('.st-zoom-btn') || inResultView) {
+      if (e.target.closest('.st-zoom-btn') || e.target.closest('.st-play-center-btn') || inResultView) {
         openLb(idx, list, inResultView);
       } else {
         toggle(list[idx].id);
@@ -738,6 +852,7 @@
 
     const step = d => {
       if (!currentLbList.length) return;
+      if ($('st-lbvideo')) $('st-lbvideo').src = '';
       cur = (cur + d + currentLbList.length) % currentLbList.length;
       showLb();
     };
@@ -746,6 +861,7 @@
     $('st-closeBtn').onclick = () => {
       $('st-lb').classList.remove('st-open');
       $('st-lbimg').src = '';
+      if ($('st-lbvideo')) $('st-lbvideo').src = '';
     };
     $('st-lbselBtn').onclick = () => {
       if (currentLbList[cur]) toggle(currentLbList[cur].id);
@@ -787,7 +903,9 @@
     });
 
     $('st-sendBtn').onclick = () => {
-      $('st-dlgCount').textContent = sel.size;
+      const hasVideos = photos.some(p => p.mediaType === 'video');
+      const unitLabel = hasVideos ? 'berkas' : 'foto';
+      $('st-dlgCount').textContent = sel.size + ' ' + unitLabel;
       $('st-note').value = statusData.note || '';
       $('st-dlgForm').style.display = 'block';
       $('st-dlgSuccess').style.display = 'none';
@@ -821,7 +939,7 @@
         setSaveStatus('Terkirim ✓', 'st-saved');
         checkStatus();
         updateOpacity();
-        toast('Pilihan foto berhasil dikirim & dikunci!', 'success');
+        toast('Pilihan berkas berhasil dikirim & dikunci!', 'success');
 
         $('st-dlgForm').style.display = 'none';
         $('st-dlgSuccess').style.display = 'block';
@@ -847,18 +965,24 @@
         try {
           const res = await apiFetch('/client/result');
           inResultView = true;
+          currentMediaTypeFilter = 'all';
           resultPhotos = Array.isArray(res.files) ? res.files : [];
+          const isWedding = gallery.category === 'wedding';
           $('st-title').textContent = 'Hasil Edit: ' + gallery.title;
-          $('st-subtitle').textContent = 'Ketuk foto untuk memperbesar atau mengunduh hasil edit.';
+          $('st-subtitle').textContent = isWedding
+            ? 'Ketuk foto atau video untuk melihat atau mengunduh hasil edit pernikahan Anda.'
+            : 'Ketuk foto untuk memperbesar atau mengunduh hasil edit.';
           const isDemoFolder = !res.folderId || String(res.folderId).startsWith('demo');
           const filesCount = resultPhotos.length;
+          const photoCount = resultPhotos.filter(p => p.mediaType !== 'video').length;
+          const videoCount = resultPhotos.filter(p => p.mediaType === 'video').length;
 
           $('st-status').innerHTML = `
             <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 8px;">
-              <button type="button" class="st-btn st-btn-outline" id="st-backToSelectBtn">← Kembali ke Pilihan Foto</button>
+              <button type="button" class="st-btn st-btn-outline" id="st-backToSelectBtn">← Kembali ke Pilihan Berkas</button>
               ${!isDemoFolder ? `<a href="https://drive.google.com/drive/folders/${encodeURIComponent(res.folderId)}" target="_blank" rel="noopener noreferrer" class="st-btn st-btn-secondary">📂 Buka Folder di Google Drive</a>` : ''}
             </div>
-            <div class="st-text-muted">${filesCount ? `${filesCount} foto hasil edit tersedia.` : 'Belum ada foto di folder hasil edit ini.'}</div>
+            <div class="st-text-muted">${filesCount ? (videoCount > 0 ? `${filesCount} berkas hasil edit (${photoCount} foto, ${videoCount} video).` : `${filesCount} foto hasil edit tersedia.`) : 'Belum ada berkas di folder hasil edit ini.'}</div>
           `;
           if ($('st-backToSelectBtn')) {
             $('st-backToSelectBtn').onclick = exitResultView;
@@ -866,6 +990,7 @@
           $('st-bottomBar').style.display = 'none';
           $('st-bannerContainer').style.display = 'none';
           if ($('st-resultBanner')) $('st-resultBanner').style.display = 'none';
+          renderFilterTabs();
           renderSkeleton(resultPhotos);
         } catch (e) {
           toast(e.message);
