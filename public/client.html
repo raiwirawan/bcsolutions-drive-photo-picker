@@ -6,11 +6,12 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="referrer" content="no-referrer">
   <title>Pilih Foto - Studio Client</title>
+  <base href="/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap">
-  <link rel="stylesheet" href="/css/studio-base.css">
-  <link rel="stylesheet" href="/css/studio-client.css">
+  <link rel="stylesheet" href="css/studio-base.css">
+  <link rel="stylesheet" href="css/studio-client.css">
 </head>
 <body>
   <div id="st-app" class="st-app st-client">
@@ -18,15 +19,20 @@
     <noscript><div class="st-shell-noscript">JavaScript harus diaktifkan untuk menggunakan aplikasi ini.</div></noscript>
   </div>
   <script>
-    const isWeddingPath = window.location.pathname.startsWith('/wedding');
-    window.StudioConfig = {
-      role: 'client',
-      category: isWeddingPath ? 'wedding' : 'studio',
-      apiBase: '/api',
-      clientPageUrl: isWeddingPath ? '/wedding/client' : '/studio/client'
-    };
+    (function() {
+      const isWeddingPath = window.location.pathname.includes('/wedding');
+      const isSubpath = window.location.pathname.startsWith('/studioapp');
+      const basePath = isSubpath ? '/studioapp' : '';
+      window.StudioConfig = {
+        role: 'client',
+        basePath: basePath,
+        category: isWeddingPath ? 'wedding' : 'studio',
+        apiBase: basePath + '/api',
+        clientPageUrl: basePath + (isWeddingPath ? '/wedding/client' : '/studio/client')
+      };
+    })();
   </script>
-  <script defer src="/js/studio-core.js"></script>
-  <script defer src="/js/studio-client.js"></script>
+  <script defer src="js/studio-core.js"></script>
+  <script defer src="js/studio-client.js"></script>
 </body>
 </html>

@@ -16,6 +16,13 @@
 
   const $ = id => document.getElementById(id);
 
+  // Alphanumeric natural sort for photography filenames (e.g. IMG_1, IMG_2, IMG_10)
+  const naturalCollator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+  function sortByName(list) {
+    if (!Array.isArray(list)) return [];
+    return list.slice().sort((a, b) => naturalCollator.compare(a.name || a.id || '', b.name || b.id || ''));
+  }
+
   function formatDuration(ms) {
     if (!ms || ms <= 0) return 'VIDEO';
     const totalSec = Math.floor(ms / 1000);
@@ -99,6 +106,8 @@
       }
 
       renderApp();
+      const isWedding = gallery.category === 'wedding';
+      document.title = (isWedding ? '💍 ' : '') + gallery.title + (isWedding ? ' | Wedding Gallery' : ' - Pilih Foto');
       await loadPhotos();
     } catch (err) {
       renderError(err.message || 'Gagal memuat galeri.');
@@ -112,7 +121,7 @@
       statusEl.innerHTML = 'Memuat daftar berkas...';
     }
     try {
-      photos = await apiFetch('/client/photos');
+      photos = sortByName(await apiFetch('/client/photos'));
       const photoCount = photos.filter(p => p.mediaType !== 'video').length;
       const videoCount = photos.filter(p => p.mediaType === 'video').length;
       if (statusEl) {
@@ -183,6 +192,15 @@
 
   function renderApp() {
     const isWedding = gallery.category === 'wedding';
+    const appEl = $('st-app');
+    if (appEl) {
+      if (isWedding) {
+        appEl.classList.add('st-client--wedding');
+      } else {
+        appEl.classList.remove('st-client--wedding');
+      }
+    }
+
     const defaultSubtitle = isWedding
       ? 'Pilih foto & video kenangan pernikahan Anda (Tanpa batas kuota). Pilihan tersimpan otomatis.'
       : 'Ketuk foto yang ingin diedit. Pilihan tersimpan otomatis.';
@@ -192,7 +210,7 @@
         <div class="st-container" style="display: flex; flex-direction: column; gap: var(--st-space-3);">
           <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
             <h1 id="st-title" style="margin: 0;">${esc(gallery.title)}</h1>
-            ${isWedding ? '<span class="st-badge-status" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.35); font-size: 12px; padding: 3px 10px; border-radius: 999px;">💍 Wedding Edition</span>' : ''}
+            ${isWedding ? '<span class="st-badge-wedding-title">💍 Wedding Gallery</span>' : ''}
           </div>
           <p id="st-subtitle" class="st-text-muted" style="margin-bottom: 0;">${defaultSubtitle}</p>
         </div>
@@ -432,7 +450,9 @@
 
   function getImageCandidates(pItem, isLg = false) {
     const list = [];
-    const sz = isLg ? 1600 : 400;
+    const isDesktopWedding = gallery && gallery.category === 'wedding' && typeof window !== 'undefined' && window.innerWidth >= 768;
+    const defaultSz = isDesktopWedding ? 800 : 400;
+    const sz = isLg ? 1600 : defaultSz;
 
     // Pilar 2: Direct-to-CDN priority (Google Drive CDN & lh3 googleusercontent)
     if (!String(pItem.id).startsWith('demo')) {
@@ -468,8 +488,11 @@
     }
 
     img = document.createElement('img');
-    img.width = 400;
-    img.height = 400;
+    const isWedding = gallery && gallery.category === 'wedding';
+    if (!isWedding) {
+      img.width = 400;
+      img.height = 400;
+    }
     img.decoding = 'async';
     img.referrerPolicy = 'no-referrer';
     img.alt = pItem.name || '';
@@ -508,6 +531,16 @@
   let isCurrentResultView = false;
   let gridObserver = null;
 
+  // Wedding Multi-Column Masonry State
+  let weddingColElements = [];
+  let currentWeddingCols = 0;
+
+  function getWeddingColumnCount() {
+    const w = window.innerWidth;
+    if (w >= 768) return 3; // Desktop & Tablet: 3 kolom pas memuat ~5 foto per frame
+    return 2;              // Mobile: tetap 2 kolom
+  }
+
   function renderNextChunk() {
     if (!activeRenderList || renderedCount >= activeRenderList.length) {
       removeSentinel();
@@ -516,6 +549,9 @@
 
     const grid = $('st-grid');
     if (!grid) return;
+
+    const isWedding = gallery && gallery.category === 'wedding' && weddingColElements.length > 0;
+    const colCount = isWedding ? weddingColElements.length : 1;
 
     const nextBatch = activeRenderList.slice(renderedCount, renderedCount + CHUNK_SIZE);
     const frag = document.createDocumentFragment();
@@ -543,16 +579,22 @@
       if (!isCurrentResultView) {
         cardMap.set(p.id, c);
       }
-      frag.appendChild(c);
+      if (isWedding) {
+        weddingColElements[overallIndex % colCount].appendChild(c);
+      } else {
+        frag.appendChild(c);
+      }
     });
 
     renderedCount += nextBatch.length;
 
-    const sentinel = $('st-grid-sentinel');
-    if (sentinel) {
-      grid.insertBefore(frag, sentinel);
-    } else {
-      grid.appendChild(frag);
+    if (!isWedding) {
+      const sentinel = $('st-grid-sentinel');
+      if (sentinel) {
+        grid.insertBefore(frag, sentinel);
+      } else {
+        grid.appendChild(frag);
+      }
     }
 
     if (renderedCount >= activeRenderList.length) {
@@ -618,6 +660,23 @@
     grid.innerHTML = '';
     cardMap.clear();
     renderedCount = 0;
+    weddingColElements = [];
+
+    const isWedding = gallery && gallery.category === 'wedding';
+    if (isWedding) {
+      const colCount = getWeddingColumnCount();
+      currentWeddingCols = colCount;
+      const masonryWrap = document.createElement('div');
+      masonryWrap.className = 'st-wedding-masonry';
+      masonryWrap.id = 'st-wedding-masonry';
+      for (let i = 0; i < colCount; i++) {
+        const col = document.createElement('div');
+        col.className = 'st-wedding-col';
+        masonryWrap.appendChild(col);
+        weddingColElements.push(col);
+      }
+      grid.appendChild(masonryWrap);
+    }
 
     renderNextChunk();
 
@@ -966,7 +1025,7 @@
           const res = await apiFetch('/client/result');
           inResultView = true;
           currentMediaTypeFilter = 'all';
-          resultPhotos = Array.isArray(res.files) ? res.files : [];
+          resultPhotos = sortByName(Array.isArray(res.files) ? res.files : []);
           const isWedding = gallery.category === 'wedding';
           $('st-title').textContent = 'Hasil Edit: ' + gallery.title;
           $('st-subtitle').textContent = isWedding
@@ -1001,6 +1060,18 @@
       };
     }
   }
+
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    if (!gallery || gallery.category !== 'wedding') return;
+    if (resizeTimer) clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const newColCount = getWeddingColumnCount();
+      if (newColCount !== currentWeddingCols && photos.length > 0) {
+        renderSkeleton(inResultView ? resultPhotos : null);
+      }
+    }, 150);
+  });
 
   init();
 })();

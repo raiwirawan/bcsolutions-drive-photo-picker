@@ -6,11 +6,12 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="referrer" content="no-referrer">
   <title>Studio Editor - Manajemen Galeri</title>
+  <base href="/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap">
-  <link rel="stylesheet" href="/css/studio-base.css">
-  <link rel="stylesheet" href="/css/studio-editor.css">
+  <link rel="stylesheet" href="css/studio-base.css">
+  <link rel="stylesheet" href="css/studio-editor.css">
 </head>
 <body>
   <div id="st-app" class="st-app st-editor">
@@ -18,18 +19,23 @@
     <noscript><div class="st-shell-noscript">JavaScript harus diaktifkan untuk menggunakan aplikasi ini.</div></noscript>
   </div>
   <script>
-    const isWeddingPath = window.location.pathname.startsWith('/wedding');
-    window.StudioConfig = {
-      role: 'editor',
-      category: isWeddingPath ? 'wedding' : 'studio',
-      apiBase: '/api',
-      isAdmin: true,
-      clientPageUrl: isWeddingPath ? '/wedding/client' : '/studio/client'
-    };
+    (function() {
+      const isWeddingPath = window.location.pathname.includes('/wedding');
+      const isSubpath = window.location.pathname.startsWith('/studioapp');
+      const basePath = isSubpath ? '/studioapp' : '';
+      window.StudioConfig = {
+        role: 'editor',
+        basePath: basePath,
+        category: isWeddingPath ? 'wedding' : 'studio',
+        apiBase: basePath + '/api',
+        isAdmin: true,
+        clientPageUrl: basePath + (isWeddingPath ? '/wedding/client' : '/studio/client')
+      };
+    })();
   </script>
-  <script defer src="/js/vendor/jszip.min.js"></script>
-  <script defer src="/js/studio-zip.js"></script>
-  <script defer src="/js/studio-core.js"></script>
-  <script defer src="/js/studio-editor.js"></script>
+  <script defer src="js/vendor/jszip.min.js"></script>
+  <script defer src="js/studio-zip.js"></script>
+  <script defer src="js/studio-core.js"></script>
+  <script defer src="js/studio-editor.js"></script>
 </body>
 </html>

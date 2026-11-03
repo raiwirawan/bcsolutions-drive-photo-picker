@@ -3,7 +3,7 @@
   const { apiFetch, esc, openDialog, closeDialog, toast, confirmDialog, copyText, toAbsoluteUrl, extractFolderId } = window.StudioApp;
 
   let currentCategory = (window.StudioConfig && window.StudioConfig.category) ||
-    (window.location.pathname.startsWith('/wedding') ? 'wedding' : 'studio');
+    (window.location.pathname.includes('/wedding') ? 'wedding' : 'studio');
 
   let galleries = [], currentPhotos = [], currentCur = 0;
   let activeGalleryId = null, currentCsvUrl = null, pollTimer = null;
@@ -13,6 +13,13 @@
   let activeEditorFilterList = [];
 
   const $ = id => document.getElementById(id);
+
+  // Alphanumeric natural sort for photography filenames (e.g. IMG_1, IMG_2, IMG_10)
+  const naturalCollator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+  function sortByName(list) {
+    if (!Array.isArray(list)) return [];
+    return list.slice().sort((a, b) => naturalCollator.compare(a.name || a.id || '', b.name || b.id || ''));
+  }
 
   function formatDuration(ms) {
     if (!ms || isNaN(ms)) return '0:00';
@@ -69,10 +76,13 @@
   async function switchCategory(cat) {
     if (currentCategory === cat) return;
     currentCategory = cat;
-    window.history.pushState({}, '', `/${cat}/editor`);
+    const basePath = (window.StudioConfig && window.StudioConfig.basePath) !== undefined
+      ? window.StudioConfig.basePath
+      : (window.location.pathname.startsWith('/studioapp') ? '/studioapp' : '');
+    window.history.pushState({}, '', `${basePath}/${cat}/editor`);
     if (window.StudioConfig) {
       window.StudioConfig.category = cat;
-      window.StudioConfig.clientPageUrl = `/${cat}/client`;
+      window.StudioConfig.clientPageUrl = `${basePath}/${cat}/client`;
     }
     document.title = cat === 'wedding'
       ? 'Wedding Editor - Manajemen Galeri Pernikahan'
@@ -845,7 +855,7 @@
     if ($('st-detailSyncInfo')) {
       $('st-detailSyncInfo').textContent = formatSyncRelative(data.syncedAt);
     }
-    currentPhotos = Array.isArray(data.photos) ? data.photos : [];
+    currentPhotos = sortByName(Array.isArray(data.photos) ? data.photos : []);
     editorMediaTypeFilter = 'all';
 
     const targetG = galleries.find(x => String(x.id) === String(id));
@@ -1457,7 +1467,7 @@
     try {
       const data = await apiFetch(`/editor/galleries/${id}/all-photos`);
       pickerData = data;
-      pickerPhotos = Array.isArray(data.photos) ? data.photos : [];
+      pickerPhotos = sortByName(Array.isArray(data.photos) ? data.photos : []);
       pickerSelected = new Set(Array.isArray(data.selectedIds) ? data.selectedIds : []);
       pickerFiltered = [...pickerPhotos];
       renderPickerUI();

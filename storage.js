@@ -728,5 +728,25 @@ export async function saveFilesCache(cache) {
   return true;
 }
 
+export function getStorageStatus() {
+  let backend = 'in_memory';
+  if (isRtdbReady()) {
+    backend = 'firebase_rtdb';
+  } else if (isFirebaseStorageReady()) {
+    backend = 'firebase_storage';
+  }
+
+  return {
+    isDbConnected: isFirebaseReady(),
+    isCloudSynced: memoryState.isCloudSynced,
+    backend,
+    isInitialized: memoryState.isInitialized,
+    firebaseReady: isFirebaseReady(),
+    connectionType: backend,
+    galleryCount: (memoryState.galleries || []).length,
+    isVercel: IS_VERCEL
+  };
+}
+
 // Auto-initialize storage on module load
 initStorage();

@@ -26,7 +26,8 @@ import {
   saveSettings,
   getFilesCache,
   saveFilesCache,
-  isFirebaseReady
+  isFirebaseReady,
+  getStorageStatus
 } from './storage.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -86,6 +87,17 @@ function getCurrentTimestamp() {
   const now = new Date();
   const pad = (n) => String(n).padStart(2, '0');
   return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+}
+
+// Alphanumeric natural sort for photography filenames (e.g. IMG_1, IMG_2, IMG_10)
+const naturalNameCollator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+function sortFilesByName(list) {
+  if (!Array.isArray(list)) return [];
+  return list.slice().sort((a, b) => {
+    const nameA = a?.name || a?.id || '';
+    const nameB = b?.name || b?.id || '';
+    return naturalNameCollator.compare(nameA, nameB);
+  });
 }
 
 // Generate demo photo SVG when no Google Drive API Key or for testing
@@ -237,14 +249,15 @@ async function syncFolder(folderId) {
         });
       }
     }
+    const sortedDemo = sortFilesByName(demoFiles);
     cache[folderId] = {
       time: Date.now(),
       synced_at: syncTime,
-      count: demoFiles.length,
-      files: demoFiles
+      count: sortedDemo.length,
+      files: sortedDemo
     };
-    saveFilesCache(cache);
-    return demoFiles;
+    await saveFilesCache(cache);
+    return sortedDemo;
   }
 
   const rawFiles = [];
@@ -313,7 +326,8 @@ async function syncFolder(folderId) {
     pageToken = data.nextPageToken || '';
   } while (pageToken);
 
-  const formattedFiles = rawFiles.map((item, idx) => ({
+  const sortedRaw = sortFilesByName(rawFiles);
+  const formattedFiles = sortedRaw.map((item, idx) => ({
     id: item.id,
     name: item.name,
     mime: item.mime,
@@ -370,10 +384,11 @@ async function getFileIndex(folderId, forceRefresh = false) {
     if (Date.now() - (entry.time || 0) > 5 * 60 * 1000) {
       syncFolder(folderId).catch(err => console.error('[Background Sync Err]', err.message));
     }
-    return entry.files;
+    return sortFilesByName(entry.files);
   }
 
-  return await syncFolder(folderId);
+  const freshFiles = await syncFolder(folderId);
+  return sortFilesByName(freshFiles);
 }
 
 // Prefetch thumbnails into cache
@@ -564,7 +579,7 @@ async function buildEditorGalleryDetail(g, forceRefresh = false, baseUrl = '') {
     note: g.note || '',
     syncedAt,
     missingNameCount: missingCount,
-    photos: selectedPhotos,
+    photos: sortFilesByName(selectedPhotos),
     link: baseUrl ? `${baseUrl}${clientPath}` : clientPath
   };
 }
@@ -1211,6 +1226,7 @@ export async function handleRequest(req, res) {
       testedFolderId: targetFolder,
       filesListTest: listTest,
       filesGetTest: getTest,
+      storage: getStorageStatus(),
       environment: {
         nodeVersion: process.version,
         isVercel: IS_VERCEL,
