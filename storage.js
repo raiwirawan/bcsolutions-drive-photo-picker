@@ -748,5 +748,210 @@ export function getStorageStatus() {
   };
 }
 
+function safeJsonParse(str, fallback) {
+  if (!str) return fallback;
+  if (typeof str === 'object') return str;
+  try {
+    return JSON.parse(str);
+  } catch {
+    return fallback;
+  }
+}
+
+function toFormattedDateTime(dt) {
+  if (!dt) return null;
+  const d = new Date(dt);
+  if (isNaN(d.getTime())) return null;
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+}
+
+// ==========================================
+// 11. EXPORT & IMPORT (JSON BACKUP / MIGRATION)
+// ==========================================
+export async function exportAllData() {
+  await ensureStorageReady();
+  const rawGalleries = getGalleries();
+  const rawSettings = getSettings();
+
+  return {
+    app: 'bc-studio-app',
+    version: 1,
+    exported_at: new Date().toISOString(),
+    source_backend: 'firebase',
+    settings: {
+      whatsapp: rawSettings.whatsapp || '',
+      include_octet_stream: Boolean(rawSettings.include_octet_stream),
+      editor_key: rawSettings.editor_key || 'admin'
+    },
+    galleries: normalizeArray(rawGalleries)
+  };
+}
+
+export async function importAllData(payload, options = {}) {
+  await ensureStorageReady();
+  const mode = (options.mode === 'replace') ? 'replace' : 'upsert';
+  const overwriteEditorKey = Boolean(options.overwriteEditorKey);
+
+  let incomingGalleries = [];
+  let incomingSettings = null;
+
+  if (Array.isArray(payload)) {
+    incomingGalleries = payload;
+  } else if (payload && typeof payload === 'object') {
+    if (Array.isArray(payload.galleries)) {
+      incomingGalleries = payload.galleries;
+    }
+    if (payload.settings && typeof payload.settings === 'object') {
+      incomingSettings = payload.settings;
+    }
+  } else {
+    throw new Error('Format data JSON tidak valid: Harus berupa objek backup atau array galeri');
+  }
+
+  const now = toFormattedDateTime(new Date());
+  const sanitizedIncoming = [];
+
+  for (let i = 0; i < incomingGalleries.length; i++) {
+    const item = incomingGalleries[i];
+    if (!item || typeof item !== 'object') continue;
+
+    const title = (item.title || '').trim();
+    if (!title) continue;
+
+    let token = (item.token || '').trim();
+    if (!token) {
+      token = crypto.randomBytes(16).toString('hex');
+    }
+
+    const rawCategory = (item.category || '').trim().toLowerCase();
+    const category = rawCategory === 'wedding' ? 'wedding' : 'studio';
+    const sourceFolderId = (item.source_folder_id || '').trim();
+    const resultFolderId = (item.result_folder_id || '').trim();
+    const maxSelect = category === 'wedding' ? 0 : Math.max(0, parseInt(item.max_select, 10) || 0);
+
+    let selectedIds = item.selected_ids;
+    if (typeof selectedIds === 'string') {
+      selectedIds = safeJsonParse(selectedIds, []);
+    }
+    if (!Array.isArray(selectedIds)) selectedIds = [];
+
+    let selectedMeta = item.selected_meta;
+    if (typeof selectedMeta === 'string') {
+      selectedMeta = safeJsonParse(selectedMeta, {});
+    }
+    if (!selectedMeta || typeof selectedMeta !== 'object' || Array.isArray(selectedMeta)) selectedMeta = {};
+
+    const selectedCount = Number(item.selected_count !== undefined ? item.selected_count : selectedIds.length) || 0;
+    const status = (item.status || 'unstarted').trim();
+    const note = (item.note || '').trim();
+
+    const createdAt = toFormattedDateTime(item.created_at) || now;
+    const updatedAt = toFormattedDateTime(item.updated_at) || now;
+    const submittedAt = toFormattedDateTime(item.submitted_at);
+    const reopenedAt = toFormattedDateTime(item.reopened_at);
+
+    sanitizedIncoming.push({
+      id: Number(item.id) || null,
+      category,
+      token,
+      title,
+      source_folder_id: sourceFolderId,
+      result_folder_id: resultFolderId,
+      max_select: maxSelect,
+      status,
+      selected_ids: selectedIds,
+      selected_meta: selectedMeta,
+      selected_count: selectedCount,
+      note,
+      created_at: createdAt,
+      updated_at: updatedAt,
+      submitted_at: submittedAt,
+      reopened_at: reopenedAt
+    });
+  }
+
+  let finalGalleries = [];
+  let insertedCount = 0;
+  let updatedCount = 0;
+
+  if (mode === 'replace') {
+    let idCounter = 1;
+    finalGalleries = sanitizedIncoming.map(g => ({
+      ...g,
+      id: idCounter++
+    }));
+    insertedCount = finalGalleries.length;
+    updatedCount = 0;
+  } else {
+    const existing = [...getGalleries()];
+    const tokenMap = new Map();
+    existing.forEach((g, idx) => {
+      if (g.token) tokenMap.set(g.token, idx);
+    });
+
+    let maxId = existing.reduce((acc, cur) => Math.max(acc, Number(cur.id) || 0), 0);
+
+    for (const inc of sanitizedIncoming) {
+      if (tokenMap.has(inc.token)) {
+        const idx = tokenMap.get(inc.token);
+        const current = existing[idx];
+        existing[idx] = {
+          ...inc,
+          id: current.id
+        };
+        updatedCount++;
+      } else {
+        maxId++;
+        const newGallery = {
+          ...inc,
+          id: maxId
+        };
+        existing.push(newGallery);
+        tokenMap.set(inc.token, existing.length - 1);
+        insertedCount++;
+      }
+    }
+    finalGalleries = existing;
+  }
+
+  await saveGalleries(finalGalleries);
+
+  let settingsUpdated = false;
+  if (incomingSettings) {
+    const currentSettings = getSettings();
+    const newSettings = { ...currentSettings };
+
+    if (incomingSettings.whatsapp !== undefined) {
+      newSettings.whatsapp = String(incomingSettings.whatsapp || '').replace(/[^0-9]/g, '');
+      settingsUpdated = true;
+    }
+    if (incomingSettings.include_octet_stream !== undefined) {
+      newSettings.include_octet_stream = Boolean(incomingSettings.include_octet_stream);
+      settingsUpdated = true;
+    }
+    if (overwriteEditorKey && incomingSettings.editor_key) {
+      const trimmedKey = String(incomingSettings.editor_key).trim();
+      if (trimmedKey) {
+        newSettings.editor_key = trimmedKey;
+        settingsUpdated = true;
+      }
+    }
+
+    if (settingsUpdated) {
+      await saveSettings(newSettings);
+    }
+  }
+
+  return {
+    success: true,
+    mode,
+    totalCount: finalGalleries.length,
+    insertedCount,
+    updatedCount,
+    settingsUpdated
+  };
+}
+
 // Auto-initialize storage on module load
 initStorage();

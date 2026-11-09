@@ -27,7 +27,9 @@ import {
   getFilesCache,
   saveFilesCache,
   isFirebaseReady,
-  getStorageStatus
+  getStorageStatus,
+  exportAllData,
+  importAllData
 } from './storage.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -796,7 +798,7 @@ async function readJsonBody(req) {
     let body = '';
     req.on('data', chunk => {
       body += chunk;
-      if (body.length > 5 * 1024 * 1024) { // 5MB limit
+      if (body.length > 15 * 1024 * 1024) { // 15MB limit
         reject(new Error('Payload too large'));
       }
     });
@@ -1258,6 +1260,41 @@ export async function handleRequest(req, res) {
     settings.whatsapp = wa;
     await saveSettings(settings);
     return sendJson(res, 200, { ok: true, whatsapp: wa });
+  }
+
+  // GET /api/editor/data/export (Unduh backup JSON)
+  if (apiPath === '/editor/data/export' && method === 'GET') {
+    try {
+      const data = await exportAllData();
+      const filename = `bc-studio-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      return sendJson(res, 200, data);
+    } catch (err) {
+      return sendError(res, 500, 'export_error', err.message);
+    }
+  }
+
+  // POST /api/editor/data/import (Impor data JSON: Upsert atau Replace All)
+  if (apiPath === '/editor/data/import' && method === 'POST') {
+    let body = {};
+    try {
+      body = await readJsonBody(req);
+    } catch (err) {
+      return sendError(res, 400, 'invalid_body', err.message || 'Payload JSON tidak valid');
+    }
+
+    const payloadData = body.data !== undefined ? body.data : body;
+    const options = {
+      mode: body.mode || 'upsert',
+      overwriteEditorKey: Boolean(body.overwrite_editor_key || body.overwriteEditorKey)
+    };
+
+    try {
+      const result = await importAllData(payloadData, options);
+      return sendJson(res, 200, result);
+    } catch (err) {
+      return sendError(res, 400, 'import_error', err.message || 'Gagal memproses impor data');
+    }
   }
 
   // POST /api/editor/drive/resolve

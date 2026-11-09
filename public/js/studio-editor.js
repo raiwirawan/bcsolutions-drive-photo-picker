@@ -110,6 +110,7 @@
           </div>
           <div style="display: flex; gap: var(--st-space-2); margin-top: 8px; flex-wrap: wrap;">
             <button class="st-btn st-btn-primary" id="st-settingsBtn">💬 Pengaturan WA</button>
+            <button class="st-btn st-btn-outline" id="st-backupBtn">📦 Backup & Migrasi</button>
           </div>
         </div>
       </header>
@@ -207,6 +208,63 @@
             <button type="submit" class="st-btn st-btn-primary" id="st-sSubmit">Simpan</button>
           </div>
         </form>
+      </div>
+
+      <!-- Dialog Backup & Migrasi Data (Ekspor & Impor JSON) -->
+      <div id="st-backupDlg-backdrop" class="st-dialog-backdrop"></div>
+      <div id="st-backupDlg" class="st-dialog" style="max-width: 540px;">
+        <h2>📦 Backup & Migrasi Data (JSON)</h2>
+        <p class="st-text-muted" style="margin-top: 4px; font-size: 13px;">
+          Ekspor atau impor data galeri dan pengaturan dalam format JSON universal. Kompatibel penuh antara DomaiNesia (MySQL) dan Vercel (Firebase).
+        </p>
+
+        <!-- Bagian Ekspor -->
+        <div style="background: rgba(0,0,0,0.03); border: 1px solid var(--st-border-color, #e2e8f0); border-radius: 8px; padding: 14px; margin-top: 14px;">
+          <h4 style="margin: 0 0 6px 0; font-size: 14px; font-weight: 700;">⬇️ Ekspor Data (Backup)</h4>
+          <p class="st-text-muted" style="margin: 0 0 10px 0; font-size: 13px;">
+            Unduh seluruh daftar galeri (beserta status dan pilihan foto klien) dan pengaturan sistem ke dalam file <code>.json</code>.
+          </p>
+          <button type="button" class="st-btn st-btn-primary" id="st-exportBtn" style="height: 36px; font-size: 13px;">
+            📥 Unduh File Backup (.json)
+          </button>
+        </div>
+
+        <!-- Bagian Impor -->
+        <div style="background: rgba(0,0,0,0.03); border: 1px solid var(--st-border-color, #e2e8f0); border-radius: 8px; padding: 14px; margin-top: 14px;">
+          <h4 style="margin: 0 0 6px 0; font-size: 14px; font-weight: 700;">⬆️ Impor Data (Restore / Migrasi)</h4>
+          <p class="st-text-muted" style="margin: 0 0 10px 0; font-size: 13px;">
+            Pilih file <code>.json</code> hasil ekspor untuk dimasukkan ke sistem ini.
+          </p>
+
+          <input type="file" id="st-importFileInput" accept=".json,application/json" style="margin-bottom: 10px; font-size: 13px; width: 100%;">
+
+          <!-- Preview Berkas Terpilih -->
+          <div id="st-importPreview" style="display: none; background: #fff; border: 1px dashed #cbd5e1; border-radius: 6px; padding: 10px; font-size: 13px; margin-bottom: 12px; line-height: 1.5;"></div>
+
+          <!-- Opsi Mode Impor -->
+          <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+            <label style="display: flex; align-items: flex-start; gap: 8px; cursor: pointer;">
+              <input type="radio" name="st-import-mode" value="upsert" checked style="margin-top: 2px;">
+              <span><strong>Gabungkan & Perbarui (Upsert) - Direkomendasikan:</strong> Galeri yang cocok (token sama) akan diperbarui, galeri baru ditambahkan. Data galeri lama lainnya tetap aman.</span>
+            </label>
+            <label style="display: flex; align-items: flex-start; gap: 8px; cursor: pointer;">
+              <input type="radio" name="st-import-mode" value="replace" style="margin-top: 2px;">
+              <span style="color: #dc2626;"><strong>Timpa Total (Replace All):</strong> Hapus seluruh galeri lama di sistem dan ganti seutuhnya dengan isi file JSON ini.</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-top: 4px;">
+              <input type="checkbox" id="st-importOverwriteKey">
+              <span>Ikut perbarui Kunci Editor (admin key) dari file backup</span>
+            </label>
+          </div>
+
+          <button type="button" class="st-btn st-btn-primary" id="st-importSubmitBtn" style="margin-top: 14px; height: 38px; width: 100%;" disabled>
+            🚀 Mulai Impor Data
+          </button>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: var(--st-space-4);">
+          <button type="button" class="st-btn st-btn-outline" id="st-backupCloseBtn">Tutup</button>
+        </div>
       </div>
 
       <!-- Lightbox Editor -->
@@ -2177,6 +2235,162 @@
         $('st-sSubmit').disabled = false;
       }
     };
+
+    // ==========================================
+    // BACKUP & MIGRASI DATA (EKSPOR & IMPOR JSON)
+    // ==========================================
+    let parsedImportData = null;
+
+    if ($('st-backupBtn')) {
+      $('st-backupBtn').onclick = () => {
+        parsedImportData = null;
+        if ($('st-importFileInput')) $('st-importFileInput').value = '';
+        if ($('st-importPreview')) {
+          $('st-importPreview').style.display = 'none';
+          $('st-importPreview').innerHTML = '';
+        }
+        if ($('st-importSubmitBtn')) $('st-importSubmitBtn').disabled = true;
+        openDialog('st-backupDlg');
+      };
+    }
+
+    if ($('st-backupCloseBtn')) {
+      $('st-backupCloseBtn').onclick = () => closeDialog('st-backupDlg');
+    }
+
+    if ($('st-exportBtn')) {
+      $('st-exportBtn').onclick = async () => {
+        const btn = $('st-exportBtn');
+        btn.disabled = true;
+        const originalText = btn.textContent;
+        btn.textContent = 'Menyiapkan berkas...';
+        try {
+          const data = await apiFetch('/editor/data/export');
+          const jsonStr = JSON.stringify(data, null, 2);
+          const blob = new Blob([jsonStr], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `bc-studio-backup-${new Date().toISOString().slice(0, 10)}.json`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          toast('File backup JSON berhasil diunduh', 'success');
+        } catch (err) {
+          toast(err.message || 'Gagal mengekspor data', 'error');
+        } finally {
+          btn.disabled = false;
+          btn.textContent = originalText;
+        }
+      };
+    }
+
+    if ($('st-importFileInput')) {
+      $('st-importFileInput').onchange = (e) => {
+        const file = e.target.files && e.target.files[0];
+        const preview = $('st-importPreview');
+        const submitBtn = $('st-importSubmitBtn');
+        if (!file) {
+          parsedImportData = null;
+          preview.style.display = 'none';
+          submitBtn.disabled = true;
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          try {
+            const parsed = JSON.parse(evt.target.result);
+            let gCount = 0;
+            let hasSettings = false;
+            let backend = 'unknown';
+
+            if (Array.isArray(parsed)) {
+              gCount = parsed.length;
+            } else if (parsed && typeof parsed === 'object') {
+              if (Array.isArray(parsed.galleries)) gCount = parsed.galleries.length;
+              if (parsed.settings) hasSettings = true;
+              if (parsed.source_backend) backend = parsed.source_backend;
+            } else {
+              throw new Error('Format JSON tidak sesuai format data galeri');
+            }
+
+            parsedImportData = parsed;
+            preview.style.display = 'block';
+            preview.innerHTML = `
+              <div style="font-weight: 600; color: #166534; margin-bottom: 2px;">✅ File JSON Valid</div>
+              <div>Nama: <code>${esc(file.name)}</code> (${(file.size / 1024).toFixed(1)} KB)</div>
+              <div>Jumlah Galeri Terdeteksi: <strong>${gCount}</strong> galeri</div>
+              ${hasSettings ? '<div>Pengaturan: Termasuk nomor WA / konfigurasi</div>' : ''}
+              ${backend !== 'unknown' ? `<div>Sumber: Backend <code>${esc(backend)}</code></div>` : ''}
+            `;
+            submitBtn.disabled = false;
+          } catch (err) {
+            parsedImportData = null;
+            preview.style.display = 'block';
+            preview.innerHTML = `<div style="color: #dc2626; font-weight: 600;">❌ File tidak valid: ${esc(err.message)}</div>`;
+            submitBtn.disabled = true;
+          }
+        };
+        reader.readAsText(file);
+      };
+    }
+
+    if ($('st-importSubmitBtn')) {
+      $('st-importSubmitBtn').onclick = async () => {
+        if (!parsedImportData) return;
+        const modeRadio = document.querySelector('input[name="st-import-mode"]:checked');
+        const mode = modeRadio ? modeRadio.value : 'upsert';
+        const overwriteKey = $('st-importOverwriteKey') ? $('st-importOverwriteKey').checked : false;
+
+        const isReplace = mode === 'replace';
+        const confirmMsg = isReplace
+          ? 'PERINGATAN: Mode Timpa Total akan MENGHAPUS SEMUA data galeri yang ada di sistem ini dan menggantinya dengan isi file backup. Apakah Anda yakin ingin melanjutkan?'
+          : 'Apakah Anda yakin ingin mengimpor dan menggabungkan data dari file ini? Galeri dengan token sama akan diperbarui, galeri baru akan ditambahkan.';
+
+        const ok = await confirmDialog({
+          title: isReplace ? 'Konfirmasi Timpa Total (Replace All)' : 'Konfirmasi Impor Data (Upsert)',
+          message: confirmMsg,
+          confirmText: isReplace ? 'Ya, Timpa Semua' : 'Ya, Impor Sekarang',
+          variant: isReplace ? 'danger' : 'warning'
+        });
+
+        if (!ok) return;
+
+        const btn = $('st-importSubmitBtn');
+        btn.disabled = true;
+        const origSubmitText = btn.textContent;
+        btn.textContent = 'Memproses impor...';
+
+        try {
+          const res = await apiFetch('/editor/data/import', {
+            method: 'POST',
+            body: JSON.stringify({
+              data: parsedImportData,
+              mode,
+              overwrite_editor_key: overwriteKey
+            })
+          });
+
+          toast(`Impor berhasil! Total: ${res.totalCount || 0} galeri (Baru: ${res.insertedCount || 0}, Diperbarui: ${res.updatedCount || 0})`, 'success');
+          closeDialog('st-backupDlg');
+          $('st-importFileInput').value = '';
+          $('st-importPreview').style.display = 'none';
+          parsedImportData = null;
+
+          await loadGalleries();
+          if (activeGalleryId) {
+            viewGallery(activeGalleryId, false);
+          }
+        } catch (err) {
+          toast(err.message || 'Gagal mengimpor data', 'error');
+        } finally {
+          btn.disabled = false;
+          btn.textContent = origSubmitText;
+        }
+      };
+    }
 
     $('st-closeDetailBtn').onclick = closeDetailPanel;
     if ($('st-toggleSidebarBtn')) {
